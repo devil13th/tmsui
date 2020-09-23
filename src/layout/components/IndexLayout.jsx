@@ -68,11 +68,11 @@ class IndexLayout extends React.Component {
     const allowTransition = window.confirm(message);
     callback(allowTransition);
   }}>
-             
+              
                   <Switch>
               
                     <Route path="/testA">
-                      <TestA></TestA>
+                      <TestA a="xxx"></TestA>
                     </Route>
     
                   </Switch>
@@ -80,7 +80,7 @@ class IndexLayout extends React.Component {
             </HashRouter>
           </Content>
         </Layout>
-      </Layout>
+      </Layout> 
     );
   }
 }
