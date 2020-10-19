@@ -43,10 +43,10 @@ class IndexMenu extends React.Component {
         trigger={null}
         breakpoint="lg"
         onBreakpoint={(broken) => {
-          console.log(broken)
+          // console.log(broken)
         }}
         onCollapse={(collapsed, type) => {
-          console.log(collapsed, type)
+          // console.log(collapsed, type)
           this.props.setState({ collapsed })
         }}
         collapsedWidth={80}

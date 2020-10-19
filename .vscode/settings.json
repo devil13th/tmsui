@@ -16,10 +16,10 @@
     // 显示 markdown 中英文切换时产生的特殊字符
     "editor.renderControlCharacters": true,
     // 设置 eslint 保存时自动修复
-    "eslint.autoFixOnSave": true,
+    //"eslint.autoFixOnSave": true,
     // eslint 检测文件类型
     "eslint.validate": [
-        "vue",
+        "jsx",
         "html",
         "javascript",
         "typescript",
@@ -39,5 +39,9 @@
     },
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
+    },
+    "eslint.codeAction.showDocumentation": {
+
+        "enable": true
     },
 }
