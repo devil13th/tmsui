@@ -1,5 +1,15 @@
 import React from 'react'
-import { message, Menu, Table, Button, Form, Row, Col, Input } from 'antd'
+import {
+  message,
+  Menu,
+  Table,
+  Button,
+  Form,
+  Row,
+  Col,
+  Input,
+  Divider,
+} from 'antd'
 import tran from '@/utils/transfer'
 class CgTestList extends React.Component {
   // constructor(props) {
@@ -17,11 +27,12 @@ class CgTestList extends React.Component {
     // 分页
     pagination: {
       current: 1,
-      pageSize: 3,
+      pageSize: 10,
       total: 0,
-      pageSizeOptions: [5, 10, 15, 20, 50, 100],
+      pageSizeOptions: [1, 5, 10, 15, 20, 50, 100],
       showSizeChanger: true,
-      size: 'small',
+      showQuickJumper: true,
+      size: 'default',
     },
     // 排序
     sorter: {
@@ -30,6 +41,8 @@ class CgTestList extends React.Component {
     },
     // 主键字段
     key: 'userId',
+    // 每列宽度 (24/colSpan的值为每行多少列)
+    colSpan: 8,
   }
 
   componentDidMount = function () {
@@ -66,7 +79,6 @@ class CgTestList extends React.Component {
               current: r.result.pageNum,
               pageSize: r.result.pageSize,
               total: r.result.total,
-              showQuickJumper: true,
             },
           })
         } else {
@@ -141,7 +153,137 @@ class CgTestList extends React.Component {
     ]
 
     return (
-      <div>
+      <div className="pageContent">
+        <Form name="advanced_search" className="ant-advanced-search-form">
+          <Row gutter={24}>
+            <Col span={this.state.colSpan}>
+              <Form.Item
+                name="xx"
+                label="aa"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Input something!',
+                  },
+                ]}
+              >
+                <Input placeholder="placeholder" />
+              </Form.Item>
+            </Col>
+            <Col span={this.state.colSpan}>
+              <Form.Item
+                name="xx"
+                label="aa"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Input something!',
+                  },
+                ]}
+              >
+                <Input placeholder="placeholder" />
+              </Form.Item>
+            </Col>
+            <Col span={this.state.colSpan}>
+              <Form.Item
+                name="xx"
+                label="aa"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Input something!',
+                  },
+                ]}
+              >
+                <Input placeholder="placeholder" />
+              </Form.Item>
+            </Col>
+            <Col span={this.state.colSpan}>
+              <Form.Item
+                name="xx"
+                label="aa"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Input something!',
+                  },
+                ]}
+              >
+                <Input placeholder="placeholder" />
+              </Form.Item>
+            </Col>
+            <Col span={this.state.colSpan}>
+              <Form.Item
+                name="xx"
+                label="aa"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Input something!',
+                  },
+                ]}
+              >
+                <Input placeholder="placeholder" />
+              </Form.Item>
+            </Col>
+            <Col span={this.state.colSpan}>
+              <Form.Item
+                name="xx"
+                label="aa"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Input something!',
+                  },
+                ]}
+              >
+                <Input placeholder="placeholder" />
+              </Form.Item>
+            </Col>
+            <Col span={this.state.colSpan}>
+              <Form.Item
+                name="xx"
+                label="aa"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Input something!',
+                  },
+                ]}
+              >
+                <Input placeholder="placeholder" />
+              </Form.Item>
+            </Col>
+            <Col span={this.state.colSpan}>
+              <Form.Item
+                name="xx"
+                label="aa"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Input something!',
+                  },
+                ]}
+              >
+                <Input placeholder="placeholder" />
+              </Form.Item>
+            </Col>
+            <Col span={this.state.colSpan}>
+              <Form.Item
+                name="xx"
+                label="aa"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Input something!',
+                  },
+                ]}
+              >
+                <Input placeholder="placeholder" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
         <Table
           rowSelection={rowSelection}
           columns={columns}

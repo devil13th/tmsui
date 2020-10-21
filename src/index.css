@@ -68,8 +68,9 @@ code {
 ::-webkit-scrollbar-thumb {
   border-radius: 3px;
   /*滚动条的圆角*/
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6);
-  background-color: #aaa;
+  /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6); */
+  -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+  background-color: #666;
   /*滚动条的背景颜色*/
 }
 
@@ -94,4 +95,31 @@ code {
   opacity: 0;
   transform: translateX(-100%);
   transition: all 500ms;
+}
+
+
+.pageContent {
+  /* border: 1px solid red; */
+}
+
+
+
+/*   FORM 浮动 */
+
+.ant-advanced-search-form {
+  padding: 24px;
+  background: #fbfbfb;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+}
+
+
+
+.ant-advanced-search-form .ant-form-item {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.ant-advanced-search-form .ant-form-item-control-wrapper {
+  flex: 1;
 }
