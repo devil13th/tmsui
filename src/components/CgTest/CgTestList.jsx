@@ -9,7 +9,22 @@ import {
   Col,
   Input,
   Divider,
+  Dropdown,
+  Modal,
 } from 'antd'
+import {
+  UpOutlined,
+  DownOutlined,
+  SearchOutlined,
+  DownloadOutlined,
+  UploadOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+} from '@ant-design/icons'
+
+import CgTestForm from '@/components/CgTest/CgTestForm'
+
 import tran from '@/utils/transfer'
 class CgTestList extends React.Component {
   // constructor(props) {
@@ -34,6 +49,7 @@ class CgTestList extends React.Component {
       showQuickJumper: true,
       size: 'default',
     },
+    searchToggle: false,
     // 排序
     sorter: {
       field: '',
@@ -43,15 +59,53 @@ class CgTestList extends React.Component {
     key: 'userId',
     // 每列宽度 (24/colSpan的值为每行多少列)
     colSpan: 8,
+
+    // 新增、编辑页是否显示
+    formVisible: false,
+
+    // 被编辑数据的id
+    editId: '',
+  }
+
+  formRef = React.createRef()
+
+  // 查询
+  search = () => {
+    this.queryList(true)
   }
 
   componentDidMount = function () {
     this.queryList()
   }
+  // 顶部搜索内容的收起和展开
+  toggleSearch = () => {
+    this.setState({ searchToggle: !this.state.searchToggle })
+  }
+
   // 查询列表
-  queryList = () => {
+  queryList = (clearPage) => {
     const _this = this
 
+    if (clearPage) {
+      // 清除分页
+      this.setState(
+        {
+          pagination: {
+            ..._this.state.pagination,
+            current: 1,
+          },
+        },
+        this.basicQuery
+      )
+    } else {
+      this.basicQuery()
+    }
+  }
+  // 基础查询
+  basicQuery = () => {
+    const v = this.formRef.current.getFieldsValue()
+    console.log('queryCondition', v)
+    const _this = this
     const queryCondition = {
       //userAge: 5,
       //...this.state.pagination,
@@ -60,6 +114,7 @@ class CgTestList extends React.Component {
       total: this.state.pagination.total,
       sortField: this.state.sorter.field,
       sortOrder: this.state.sorter.order.replace('end', ''),
+      ...v,
     }
     this.setState({ tableLoading: true })
     fetch(`/api/cgTest/findCgTestPage?${tran.objToUrl(queryCondition)}`, {
@@ -91,6 +146,21 @@ class CgTestList extends React.Component {
       .finally(function () {
         _this.setState({ tableLoading: false })
       })
+  }
+
+  // 创建新数据
+  create = () => {
+    this.openForm()
+  }
+
+  openForm = () => {
+    this.setState({
+      formVisible: true,
+    })
+  }
+
+  closeForm = () => {
+    this.setState({ formVisible: false })
   }
 
   onSelectChange = (tableSelectedRowKeys) => {
@@ -152,148 +222,125 @@ class CgTestList extends React.Component {
       },
     ]
 
+    const operateMenu = (
+      <Menu>
+        <Menu.Item key="1" icon={<EditOutlined />}>
+          Edit
+        </Menu.Item>
+        <Menu.Item key="2" icon={<DeleteOutlined />}>
+          Delete
+        </Menu.Item>
+        <Menu.Item key="3" icon={<DownloadOutlined />}>
+          Import
+        </Menu.Item>
+        <Menu.Item key="4" icon={<UploadOutlined />}>
+          Export
+        </Menu.Item>
+      </Menu>
+    )
+
+    const searchMenu = (
+      <Menu>
+        <Menu.Item key="2" icon={<DeleteOutlined />}>
+          Reset
+        </Menu.Item>
+      </Menu>
+    )
+
+    const searchItemDisplay = this.state.searchToggle ? 'block' : 'none'
+
     return (
       <div className="pageContent">
-        <Form name="advanced_search" className="ant-advanced-search-form">
+        <Form
+          ref={this.formRef}
+          name="advanced_search"
+          className="ant-advanced-search-form tmsui_form"
+        >
           <Row gutter={24}>
             <Col span={this.state.colSpan}>
-              <Form.Item
-                name="xx"
-                label="aa"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Input something!',
-                  },
-                ]}
-              >
+              <Form.Item name="UserId" label="userId">
                 <Input placeholder="placeholder" />
               </Form.Item>
             </Col>
             <Col span={this.state.colSpan}>
-              <Form.Item
-                name="xx"
-                label="aa"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Input something!',
-                  },
-                ]}
-              >
+              <Form.Item name="UserName" label="userName">
                 <Input placeholder="placeholder" />
               </Form.Item>
             </Col>
-            <Col span={this.state.colSpan}>
-              <Form.Item
-                name="xx"
-                label="aa"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Input something!',
-                  },
-                ]}
-              >
+            <Col
+              span={this.state.colSpan}
+              style={{ display: searchItemDisplay }}
+            >
+              <Form.Item name="userAge" label="userAge">
                 <Input placeholder="placeholder" />
               </Form.Item>
             </Col>
-            <Col span={this.state.colSpan}>
-              <Form.Item
-                name="xx"
-                label="aa"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Input something!',
-                  },
-                ]}
-              >
+            <Col
+              span={this.state.colSpan}
+              style={{ display: searchItemDisplay }}
+            >
+              <Form.Item name="userBirthday" label="userBirthday">
                 <Input placeholder="placeholder" />
               </Form.Item>
             </Col>
+            <Col
+              span={this.state.colSpan}
+              style={{ display: searchItemDisplay }}
+            ></Col>
+
             <Col span={this.state.colSpan}>
-              <Form.Item
-                name="xx"
-                label="aa"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Input something!',
-                  },
-                ]}
-              >
-                <Input placeholder="placeholder" />
-              </Form.Item>
-            </Col>
-            <Col span={this.state.colSpan}>
-              <Form.Item
-                name="xx"
-                label="aa"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Input something!',
-                  },
-                ]}
-              >
-                <Input placeholder="placeholder" />
-              </Form.Item>
-            </Col>
-            <Col span={this.state.colSpan}>
-              <Form.Item
-                name="xx"
-                label="aa"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Input something!',
-                  },
-                ]}
-              >
-                <Input placeholder="placeholder" />
-              </Form.Item>
-            </Col>
-            <Col span={this.state.colSpan}>
-              <Form.Item
-                name="xx"
-                label="aa"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Input something!',
-                  },
-                ]}
-              >
-                <Input placeholder="placeholder" />
-              </Form.Item>
-            </Col>
-            <Col span={this.state.colSpan}>
-              <Form.Item
-                name="xx"
-                label="aa"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Input something!',
-                  },
-                ]}
-              >
-                <Input placeholder="placeholder" />
+              <Form.Item label="">
+                <Button type="primary" onClick={this.search}>
+                  Search
+                </Button>
+                <Button>Reset</Button>
+                <Button
+                  key="1"
+                  type="link"
+                  icon={
+                    this.state.searchToggle ? <UpOutlined /> : <DownOutlined />
+                  }
+                  onClick={this.toggleSearch}
+                >
+                  Advance
+                </Button>
               </Form.Item>
             </Col>
           </Row>
         </Form>
+
+        <Row gutter={24} style={{ marginBottom: '8px' }}>
+          <Col span={6}></Col>
+          <Col span={18} style={{ textAlign: 'right' }}>
+            <Dropdown.Button
+              type="primary"
+              overlay={operateMenu}
+              onClick={this.create}
+            >
+              Create
+            </Dropdown.Button>
+          </Col>
+        </Row>
+
         <Table
           rowSelection={rowSelection}
           columns={columns}
           dataSource={this.state.data}
-          size={'small'}
+          size="small"
           rowKey={(record) => record.userId}
           loading={this.state.tableLoading}
           pagination={this.state.pagination}
           onChange={this.handleTableChange}
         />
+
+        <Modal
+          title="Basic Modal"
+          visible={this.state.formVisible}
+          onCancel={this.closeForm}
+          footer={null}
+        >
+          <CgTestForm id={this.state.editId}></CgTestForm>
+        </Modal>
       </div>
     )
   }

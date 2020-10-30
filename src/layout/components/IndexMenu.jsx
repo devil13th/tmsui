@@ -57,7 +57,7 @@ class IndexMenu extends React.Component {
         }}
       >
         <div className="logo"></div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
+        <Menu defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1" icon={<PieChartOutlined />}>
             <Link to="/transition">Transation</Link>
           </Menu.Item>

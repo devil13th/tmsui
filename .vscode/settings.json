@@ -21,10 +21,7 @@
     "eslint.validate": [
         "jsx",
         "html",
-        "javascript",
-        "typescript",
-        "javascriptreact",
-        "typescriptreact"
+        "javascript"
     ],
     // vetur 的自定义设置
     "vetur.format.defaultFormatterOptions": {
