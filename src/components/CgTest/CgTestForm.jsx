@@ -10,54 +10,70 @@ import {
   DatePicker,
   message,
 } from 'antd'
+import moment from 'moment'
 import transfer from '@/utils/transfer'
+import utils from '@/utils/utils'
 class CgTestForm extends React.Component {
   state = {}
   formRef = React.createRef()
-  componentDidMount() {}
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(this.props, nextProps)
+    return this.props.id !== nextProps.id
+  }
+
+  componentDidMount() {
+    if (this.props.id) {
+      this.load(this.props.id)
+    } else {
+      this.reset()
+    }
+  }
 
   // 保存数据
   save = () => {
     const v = this.formRef.current.getFieldsValue()
     const r = transfer.formatObjectForMomentAttr(v)
     console.log('record:', r)
-
-    fetch(`/api/cgTest/insertCgTest`, {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(r),
+    const _this = this
+    if (this.props.id) {
+      utils.HttpUtil.put(`/api/cgTest/updateCgTest`, r).then(function (r) {
+        _this.props.saveSuccessCb(v)
+      })
+    } else {
+      utils.HttpUtil.post(`/api/cgTest/insertCgTest`, r).then(function (r) {
+        _this.props.saveSuccessCb(v)
+      })
+    }
+  }
+  reset = () => {
+    this.formRef.current.resetFields()
+  }
+  // 加载数据
+  load = (id) => {
+    const _this = this
+    utils.HttpUtil.get(`/api/cgTest/queryCgTestById/${id}`).then(function (r) {
+      const data = r.result
+      if (data && data.userBirthday) {
+        data.userBirthday = utils.Transfer.timestampToMoment(data.userBirthday)
+      }
+      _this.formRef.current.resetFields()
+      _this.formRef.current.setFieldsValue(data)
     })
-      .then(function (obj) {
-        return obj.json()
-      })
-      .then(function (r) {
-        if (r.code === '0') {
-          message.info('SUCCESS')
-        } else {
-          message.error(r.msg)
-        }
-      })
-      .catch(function (e) {
-        message.error('ERROR')
-      })
-      .finally(function () {})
   }
 
-  // 加载数据
-  load = () => {
-    this.formRef.current.setFieldsValue({
-      userId: 'aaa',
-      userName: 'bbb',
-      userAge: 3,
-      userBirthday: '2020-10-30',
-    })
+  onFill = () => {
+    alert(utils.Transfer.momentToTimestamp(moment()))
+    alert(utils.Transfer.momentToDate(moment()))
+    alert(utils.Transfer.timestampToDate(1602576572000))
+    alert(utils.Transfer.timestampToDate(1602576572000))
   }
 
   render() {
     const { Option } = Select
     const layout = {
       labelCol: { span: 6 },
-      wrapperCol: { span: 16 },
+      wrapperCol: { span: 18 },
     }
     const tailLayout = {
       wrapperCol: { offset: 8, span: 16 },
@@ -70,10 +86,17 @@ class CgTestForm extends React.Component {
           name="control-ref"
           onFinish={this.onFinish}
         >
-          <Form.Item name="userId" label="UserId" rules={[{ required: true }]}>
+          <Form.Item
+            shouldUpdate={true}
+            name="userId"
+            label="UserId"
+            rules={[{ required: true }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item
+            shouldUpdate={true}
+            {...layout}
             name="userName"
             label="UserName"
             rules={[{ required: true }]}
@@ -81,6 +104,7 @@ class CgTestForm extends React.Component {
             <Input />
           </Form.Item>
           <Form.Item
+            shouldUpdate={true}
             name="userAge"
             label="UserAge"
             rules={[{ required: true }]}
@@ -89,6 +113,7 @@ class CgTestForm extends React.Component {
           </Form.Item>
 
           <Form.Item
+            shouldUpdate={true}
             name="userBirthday"
             label="UserBirthday"
             rules={[{ required: true }]}
@@ -97,16 +122,22 @@ class CgTestForm extends React.Component {
           </Form.Item>
         </Form>
         <Divider />
-
-        <Button type="primary" onClick={this.save}>
-          Save
-        </Button>
-        <Button htmlType="button" onClick={this.load}>
-          Reset
-        </Button>
-        <Button type="link" htmlType="button" onClick={this.onFill}>
-          Fill form
-        </Button>
+        <div style={{ textAlign: 'right' }}>
+          <Button type="primary" onClick={this.save}>
+            Save
+          </Button>
+          <Divider type="vertical"></Divider>
+          <Button htmlType="button" onClick={this.reset}>
+            Clear
+          </Button>
+          <Divider type="vertical"></Divider>
+          <Button htmlType="button" onClick={this.props.onClose}>
+            Close
+          </Button>
+          {/* <Button type="link" htmlType="button" onClick={this.onFill}>
+            Fill form
+          </Button> */}
+        </div>
       </div>
     )
   }

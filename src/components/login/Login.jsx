@@ -36,7 +36,7 @@ class Login extends React.Component {
       })
       .then(function (r) {
         console.log(r)
-        _this.props.history.push('/home')
+        _this.props.history.push('/CgTest/CgTestList')
       })
 
     console.log('Received values of form: ', values)

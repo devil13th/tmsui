@@ -11,6 +11,7 @@ import {
   Divider,
   Dropdown,
   Modal,
+  Drawer,
 } from 'antd'
 import {
   UpOutlined,
@@ -22,7 +23,7 @@ import {
   DeleteOutlined,
   PlusOutlined,
 } from '@ant-design/icons'
-
+import utils from '@/utils/utils'
 import CgTestForm from '@/components/CgTest/CgTestForm'
 
 import tran from '@/utils/transfer'
@@ -60,11 +61,10 @@ class CgTestList extends React.Component {
     // 每列宽度 (24/colSpan的值为每行多少列)
     colSpan: 8,
 
-    // 新增、编辑页是否显示
-    formVisible: false,
-
     // 被编辑数据的id
     editId: '',
+    // 新增、编辑模态窗口
+    formVisible: false,
   }
 
   formRef = React.createRef()
@@ -117,39 +117,28 @@ class CgTestList extends React.Component {
       ...v,
     }
     this.setState({ tableLoading: true })
-    fetch(`/api/cgTest/findCgTestPage?${tran.objToUrl(queryCondition)}`, {
-      method: 'get',
-      headers: {},
-    })
-      .then(function (obj) {
-        return obj.json()
-      })
-      .then(function (r) {
-        if (r.code === '0') {
-          _this.setState({
-            data: r.result.list,
-            tableLoading: false,
-            pagination: {
-              ..._this.state.pagination,
-              current: r.result.pageNum,
-              pageSize: r.result.pageSize,
-              total: r.result.total,
-            },
-          })
-        } else {
-          message.error(r.msg)
-        }
-      })
-      .catch(function (e) {
-        message.error('ERROR')
-      })
-      .finally(function () {
-        _this.setState({ tableLoading: false })
-      })
+
+    utils.HttpUtil.get(`/api/cgTest/findCgTestPage`, queryCondition).then(
+      function (r) {
+        _this.setState({
+          data: r.result.list,
+          tableLoading: false,
+          pagination: {
+            ..._this.state.pagination,
+            current: r.result.pageNum,
+            pageSize: r.result.pageSize,
+            total: r.result.total,
+          },
+        })
+      }
+    )
   }
 
   // 创建新数据
   create = () => {
+    this.setState({
+      editId: null,
+    })
     this.openForm()
   }
 
@@ -187,6 +176,22 @@ class CgTestList extends React.Component {
     this.setState(st, this.queryList)
   }
 
+  edit = (editId) => {
+    this.setState({
+      editId,
+      formVisible: true,
+    })
+  }
+
+  saveSuccessCb = (obj) => {
+    message.info('SUCCESS')
+    this.queryList(false)
+  }
+
+  saveFailureCb = (msg) => {
+    message.error(msg)
+  }
+
   render() {
     const { loading, tableSelectedRowKeys } = this.state
     const rowSelection = {
@@ -194,14 +199,8 @@ class CgTestList extends React.Component {
       onChange: this.onSelectChange,
     }
     const hasSelected = tableSelectedRowKeys.length > 0
-
+    const _this = this
     const columns = [
-      {
-        title: 'userId',
-        key: 'userId',
-        dataIndex: 'userId',
-        sorter: true,
-      },
       {
         title: 'userName',
         key: 'userName',
@@ -219,6 +218,20 @@ class CgTestList extends React.Component {
         key: 'userBirthday',
         dataIndex: 'userBirthday',
         sorter: true,
+      },
+      {
+        title: 'Action',
+        dataIndex: '',
+        key: 'x',
+        render: (text, record, index) => (
+          <a>
+            <EditOutlined
+              onClick={function () {
+                _this.edit(record.userId)
+              }}
+            />
+          </a>
+        ),
       },
     ]
 
@@ -248,22 +261,30 @@ class CgTestList extends React.Component {
     )
 
     const searchItemDisplay = this.state.searchToggle ? 'block' : 'none'
-
+    const layout = {
+      labelCol: { span: 6 },
+      wrapperCol: { span: 16 },
+    }
+    const searchLayout = {
+      labelCol: { span: 0 },
+      wrapperCol: { span: 24 },
+    }
     return (
       <div className="pageContent">
         <Form
+          {...layout}
           ref={this.formRef}
           name="advanced_search"
           className="ant-advanced-search-form tmsui_form"
         >
           <Row gutter={24}>
             <Col span={this.state.colSpan}>
-              <Form.Item name="UserId" label="userId">
+              <Form.Item name="UserId" label="userId" {...layout}>
                 <Input placeholder="placeholder" />
               </Form.Item>
             </Col>
             <Col span={this.state.colSpan}>
-              <Form.Item name="UserName" label="userName">
+              <Form.Item name="UserName" label="userName" {...layout}>
                 <Input placeholder="placeholder" />
               </Form.Item>
             </Col>
@@ -271,7 +292,7 @@ class CgTestList extends React.Component {
               span={this.state.colSpan}
               style={{ display: searchItemDisplay }}
             >
-              <Form.Item name="userAge" label="userAge">
+              <Form.Item name="userAge" label="userAge" {...layout}>
                 <Input placeholder="placeholder" />
               </Form.Item>
             </Col>
@@ -279,7 +300,7 @@ class CgTestList extends React.Component {
               span={this.state.colSpan}
               style={{ display: searchItemDisplay }}
             >
-              <Form.Item name="userBirthday" label="userBirthday">
+              <Form.Item name="userBirthday" label="userBirthday" {...layout}>
                 <Input placeholder="placeholder" />
               </Form.Item>
             </Col>
@@ -287,24 +308,21 @@ class CgTestList extends React.Component {
               span={this.state.colSpan}
               style={{ display: searchItemDisplay }}
             ></Col>
-
-            <Col span={this.state.colSpan}>
-              <Form.Item label="">
-                <Button type="primary" onClick={this.search}>
-                  Search
-                </Button>
-                <Button>Reset</Button>
-                <Button
-                  key="1"
-                  type="link"
-                  icon={
-                    this.state.searchToggle ? <UpOutlined /> : <DownOutlined />
-                  }
-                  onClick={this.toggleSearch}
-                >
-                  Advance
-                </Button>
-              </Form.Item>
+            <Col span={this.state.colSpan} style={{ textAlign: 'right' }}>
+              <Button type="primary" onClick={this.search}>
+                Search
+              </Button>
+              <Button>Reset</Button>
+              <Button
+                key="1"
+                type="link"
+                icon={
+                  this.state.searchToggle ? <UpOutlined /> : <DownOutlined />
+                }
+                onClick={this.toggleSearch}
+              >
+                Advance
+              </Button>
             </Col>
           </Row>
         </Form>
@@ -333,14 +351,31 @@ class CgTestList extends React.Component {
           onChange={this.handleTableChange}
         />
 
-        <Modal
+        <Drawer
+          title="Basic Drawer"
+          placement="right"
+          closable={true}
+          onClose={this.closeForm}
+          visible={this.state.formVisible}
+          destroyOnClose={true}
+          width={500}
+          mask={false}
+        >
+          {/* <Modal
           title="Basic Modal"
           visible={this.state.formVisible}
           onCancel={this.closeForm}
           footer={null}
-        >
-          <CgTestForm id={this.state.editId}></CgTestForm>
-        </Modal>
+          destroyOnClose={true}
+        > */}
+          <CgTestForm
+            id={this.state.editId}
+            onClose={this.closeForm}
+            saveSuccessCb={this.saveSuccessCb}
+            saveFailureCb={this.saveFailureCb}
+          ></CgTestForm>
+          {/* </Modal> */}
+        </Drawer>
       </div>
     )
   }

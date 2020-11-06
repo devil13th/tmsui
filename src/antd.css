@@ -18405,7 +18405,7 @@ textarea.ant-input-affix-wrapper {
   background-color: #fff;
   background-image: none;
   border: 1px solid #d9d9d9;
-  border-radius: 2px;
+  border-radius: 4px;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
 }
@@ -21639,7 +21639,7 @@ textarea.ant-input {
   margin: 0;
   padding: 0;
   border: 1px solid #d9d9d9;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 .ant-input-number::-moz-placeholder {
   opacity: 1;

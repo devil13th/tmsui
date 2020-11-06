@@ -123,7 +123,7 @@ code {
 .tmsui_form{
   margin-bottom:8px;
   padding: 8px 16px 0px;
-  background: #ebebeb;
+  background:rgba(0,0,0,0.05);
   border-radius: 2px;
 
 }

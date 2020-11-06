@@ -18,10 +18,10 @@ import {
 
 import IndexMenuContainer from '@/layout/containers/IndexMenuContainer'
 import IndexHeaderContainer from '@/layout/containers/IndexHeaderContainer'
-const { Header, Content, Footer, Sider } = Layout
-const { SubMenu } = Menu
 
 import CgTestList from '@/components/CgTest/CgTestList'
+const { Header, Content, Footer, Sider } = Layout
+const { SubMenu } = Menu
 
 function Home() {
   return <h2>Home</h2>
