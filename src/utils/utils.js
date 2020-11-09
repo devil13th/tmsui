@@ -32,8 +32,9 @@ function createPromise(url, cfg) {
           resolve(result)
         } else if (result.code === '401' || result.code === 401) {
           message.error(`Please login First!`)
+          alert('没有登录')
           setInterval(function () {
-            document.location.href = '/#/login'
+            // document.location.href = '/#/login'
           }, 1000)
         } else {
           // 500错误

@@ -127,3 +127,22 @@ code {
   border-radius: 2px;
 
 }
+
+
+
+
+.header-layout{
+  display:flex;
+  justify-content: space-around;
+}
+.header-bar,.header-nav,.header-toggle{
+
+}
+
+.header-bar{
+  padding-right:16px;
+}
+.header-nav{
+  padding-top:8px;
+  flex-grow: 1; 
+}
