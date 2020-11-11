@@ -12,6 +12,9 @@ import {
   Dropdown,
   Modal,
   Drawer,
+  Empty,
+  Popconfirm,
+  Tooltip,
 } from 'antd'
 import {
   UpOutlined,
@@ -156,7 +159,9 @@ class CgTestList extends React.Component {
     console.log('selectedRowKeys changed: ', tableSelectedRowKeys)
     this.setState({ tableSelectedRowKeys })
   }
-
+  reset = () => {
+    this.formRef.current.resetFields()
+  }
   // 分页/排序 事件处理
   handleTableChange = (pagination, filters, sorter) => {
     const st = {
@@ -183,6 +188,16 @@ class CgTestList extends React.Component {
     })
   }
 
+  delete = (userId) => {
+    const _this = this
+    utils.HttpUtil.delete(`/api/cgTest/deleteCgTest/${userId}`).then(function (
+      r
+    ) {
+      console.log(r)
+      _this.queryList(false)
+    })
+  }
+
   saveSuccessCb = (obj) => {
     message.info('SUCCESS')
     this.queryList(false)
@@ -205,6 +220,7 @@ class CgTestList extends React.Component {
         title: 'userName',
         key: 'userName',
         dataIndex: 'userName',
+        ellipsis: true,
         sorter: true,
       },
       {
@@ -218,19 +234,44 @@ class CgTestList extends React.Component {
         key: 'userBirthday',
         dataIndex: 'userBirthday',
         sorter: true,
+        render: (text, record, index) => {
+          if (text) {
+            return utils.Transfer.timestampToDate(text)
+          } else {
+            return 'NA'
+          }
+        },
       },
       {
         title: 'Action',
         dataIndex: '',
         key: 'x',
         render: (text, record, index) => (
-          <a>
-            <EditOutlined
-              onClick={function () {
-                _this.edit(record.userId)
+          <span>
+            <Tooltip title="Edit">
+              <EditOutlined
+                onClick={function () {
+                  _this.edit(record.userId)
+                }}
+              />
+            </Tooltip>
+
+            <Divider type="vertical"></Divider>
+
+            <Popconfirm
+              placement="topLeft"
+              title={'确定删除吗'}
+              onConfirm={function () {
+                _this.delete(record.userId)
               }}
-            />
-          </a>
+              okText="Yes"
+              cancelText="No"
+            >
+              <Tooltip title="Delete">
+                <DeleteOutlined />
+              </Tooltip>
+            </Popconfirm>
+          </span>
         ),
       },
     ]
@@ -312,7 +353,7 @@ class CgTestList extends React.Component {
               <Button type="primary" onClick={this.search}>
                 Search
               </Button>
-              <Button>Reset</Button>
+              <Button onClick={this.reset}>Reset</Button>
               <Button
                 key="1"
                 type="link"
@@ -341,6 +382,7 @@ class CgTestList extends React.Component {
         </Row>
 
         <Table
+          locale={{ emptyText: <Empty description={'No Data'} /> }}
           rowSelection={rowSelection}
           columns={columns}
           dataSource={this.state.data}
@@ -352,7 +394,7 @@ class CgTestList extends React.Component {
         />
 
         <Drawer
-          title="Basic Drawer"
+          title="User Information"
           placement="right"
           closable={true}
           onClose={this.closeForm}

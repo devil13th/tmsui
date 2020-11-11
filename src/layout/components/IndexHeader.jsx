@@ -14,13 +14,22 @@ import {
   BellOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
+import utils from '@/utils/utils'
 
 const { Header, Content, Footer, Sider } = Layout
 class IndexHeader extends React.Component {
   constructor(props) {
     super(props)
   }
-  render() {
+
+  logout = () => {
+    const _this = this
+    utils.HttpUtil.get(`/api/logout`).then(function (r) {
+      _this.props.history.push('/login')
+    })
+  }
+
+  render = () => {
     const menu = (
       <Menu>
         <Menu.Item>
@@ -44,13 +53,7 @@ class IndexHeader extends React.Component {
           </a>
         </Menu.Item>
         <Menu.Item>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="http://www.taobao.com/"
-          >
-            Logout
-          </a>
+          <a onClick={this.logout}>Logout</a>
         </Menu.Item>
       </Menu>
     )

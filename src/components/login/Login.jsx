@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Checkbox } from 'antd'
+import { Form, Input, Button, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 import { withRouter } from 'react-router-dom'
@@ -36,6 +36,7 @@ class Login extends React.Component {
       })
       .then(function (r) {
         console.log(r)
+        message.success('登录成功')
         _this.props.history.push('/CgTest/CgTestList')
       })
 

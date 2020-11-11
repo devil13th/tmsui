@@ -10,11 +10,23 @@ import {
   DatePicker,
   message,
 } from 'antd'
+
+import {
+  SaveOutlined,
+  ClearOutlined,
+  RedoOutlined,
+  CloseOutlined,
+} from '@ant-design/icons'
 import moment from 'moment'
 import transfer from '@/utils/transfer'
 import utils from '@/utils/utils'
 class CgTestForm extends React.Component {
-  state = {}
+  constructor(props) {
+    super(props)
+    this.save = this.save.bind(this)
+    this.state = {}
+  }
+
   formRef = React.createRef()
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -31,19 +43,27 @@ class CgTestForm extends React.Component {
   }
 
   // 保存数据
-  save = () => {
-    const v = this.formRef.current.getFieldsValue()
-    const r = transfer.formatObjectForMomentAttr(v)
-    console.log('record:', r)
-    const _this = this
-    if (this.props.id) {
-      utils.HttpUtil.put(`/api/cgTest/updateCgTest`, r).then(function (r) {
-        _this.props.saveSuccessCb(v)
-      })
-    } else {
-      utils.HttpUtil.post(`/api/cgTest/insertCgTest`, r).then(function (r) {
-        _this.props.saveSuccessCb(v)
-      })
+  async save() {
+    try {
+      const validateResult = await this.formRef.current.validateFields()
+      console.log('validate success', validateResult)
+
+      const v = this.formRef.current.getFieldsValue()
+      const r = transfer.formatObjectForMomentAttr(v)
+      console.log('record:', r)
+      const _this = this
+      if (this.props.id) {
+        utils.HttpUtil.put(`/api/cgTest/updateCgTest`, r).then(function (r) {
+          _this.props.saveSuccessCb(v)
+        })
+      } else {
+        utils.HttpUtil.post(`/api/cgTest/insertCgTest`, r).then(function (r) {
+          _this.props.saveSuccessCb(v)
+        })
+      }
+    } catch (e) {
+      message.error('请按照要求修改')
+      console.log('validate error', e)
     }
   }
   reset = () => {
@@ -86,12 +106,7 @@ class CgTestForm extends React.Component {
           name="control-ref"
           onFinish={this.onFinish}
         >
-          <Form.Item
-            shouldUpdate={true}
-            name="userId"
-            label="UserId"
-            rules={[{ required: true }]}
-          >
+          <Form.Item shouldUpdate={true} name="userId" label="UserId">
             <Input />
           </Form.Item>
           <Form.Item
@@ -99,7 +114,7 @@ class CgTestForm extends React.Component {
             {...layout}
             name="userName"
             label="UserName"
-            rules={[{ required: true }]}
+            rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Input />
           </Form.Item>
@@ -123,15 +138,23 @@ class CgTestForm extends React.Component {
         </Form>
         <Divider />
         <div style={{ textAlign: 'right' }}>
-          <Button type="primary" onClick={this.save}>
+          <Button type="primary" icon={<SaveOutlined />} onClick={this.save}>
             Save
           </Button>
           <Divider type="vertical"></Divider>
-          <Button htmlType="button" onClick={this.reset}>
+          <Button
+            htmlType="button"
+            icon={<ClearOutlined />}
+            onClick={this.reset}
+          >
             Clear
           </Button>
           <Divider type="vertical"></Divider>
-          <Button htmlType="button" onClick={this.props.onClose}>
+          <Button
+            htmlType="button"
+            icon={<CloseOutlined />}
+            onClick={this.props.onClose}
+          >
             Close
           </Button>
           {/* <Button type="link" htmlType="button" onClick={this.onFill}>

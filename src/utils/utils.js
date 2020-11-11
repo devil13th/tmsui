@@ -34,7 +34,7 @@ function createPromise(url, cfg) {
           message.error(`Please login First!`)
           alert('没有登录')
           setInterval(function () {
-            // document.location.href = '/#/login'
+            document.location.href = '/#/logins'
           }, 1000)
         } else {
           // 500错误
@@ -114,7 +114,7 @@ export default {
     delete: function (url, params, cfg) {
       const httpCfg = cfg ? cfg : {}
       const deleteCfg = {
-        method: 'post',
+        method: 'delete',
         headers: { 'Content-Type': 'application/json' },
         ...cfg,
       }
