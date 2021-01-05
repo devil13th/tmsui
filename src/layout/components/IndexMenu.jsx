@@ -58,9 +58,11 @@ class IndexMenu extends React.Component {
       >
         <div className="logo"></div>
         <Menu defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1" icon={<PieChartOutlined />}>
-            <Link to="/transition">Transation</Link>
-          </Menu.Item>
+          <SubMenu key="edu" icon={<ControlOutlined />} title="React Edu">
+            <Menu.Item key="1" icon={<PieChartOutlined />}>
+              <Link to="/edu/basic">React Edu</Link>
+            </Menu.Item>
+          </SubMenu>
           <Menu.Item key="2" icon={<DesktopOutlined />}>
             Option 2
           </Menu.Item>

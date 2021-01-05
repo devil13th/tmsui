@@ -2,8 +2,9 @@ import React from 'react'
 import { Layout, Menu } from 'antd'
 import { Lifecycle } from 'react-router'
 
-import { HashRouter, Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import TestA from '@/components/test/ComponentA'
+import Edu from '@/components/edu/basic/Edu'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -58,24 +59,19 @@ class IndexLayout extends React.Component {
               padding: 8,
             }}
           >
-            <HashRouter
-              getUserConfirmation={(message, callback) => {
-                // this is the default behavior
-                alert(1)
-                const allowTransition = window.confirm(message)
-                callback(allowTransition)
-              }}
-            >
-              <Switch>
-                <Route path="/testA">
-                  <TestA a="xxx"></TestA>
-                </Route>
+            <Switch>
+              <Route path="/testA">
+                <TestA a="xxx"></TestA>
+              </Route>
 
-                <Route path="/CgTest/CgTestList">
-                  <CgTestList />
-                </Route>
-              </Switch>
-            </HashRouter>
+              <Route path="/CgTest/CgTestList">
+                <CgTestList />
+              </Route>
+
+              <Route path="/edu/basic">
+                <Edu></Edu>
+              </Route>
+            </Switch>
           </Content>
         </Layout>
       </Layout>
