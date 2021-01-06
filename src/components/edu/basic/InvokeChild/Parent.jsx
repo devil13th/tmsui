@@ -1,6 +1,6 @@
 import React from 'react'
 import ChildrenComponent from './Children'
-
+import { withRouter } from 'react-router-dom'
 import { Button, Divider } from 'antd'
 class Parent extends React.Component {
   state = {
@@ -13,6 +13,7 @@ class Parent extends React.Component {
   }
 
   render() {
+    console.log('props', this.props)
     return (
       <div>
         <Button type={'primary'} onClick={this.invokeChildMethod}>
@@ -48,4 +49,4 @@ class Parent extends React.Component {
   }
 }
 
-export default Parent
+export default withRouter(Parent)

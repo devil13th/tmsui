@@ -1,0 +1,12 @@
+
+.title_layout{
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.title_content{
+  margin:0px;padding:0px;
+}
+
+

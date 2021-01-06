@@ -43,15 +43,12 @@ class Edu extends React.Component {
 
         <Divider></Divider>
         <Switch>
-          <Route path="/edu/basic/ChildComponent">
-            <ChildComponent></ChildComponent>
-          </Route>
-          <Route path="/edu/basic/InvokeChild">
-            <InvokeChild></InvokeChild>
-          </Route>
-          <Route path="/edu/basic/hook">
-            <Hook></Hook>
-          </Route>
+          <Route
+            path="/edu/basic/ChildComponent"
+            component={ChildComponent}
+          ></Route>
+          <Route path="/edu/basic/InvokeChild" component={InvokeChild}></Route>
+          <Route path="/edu/basic/hook" component={Hook}></Route>
         </Switch>
       </div>
     )

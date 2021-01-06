@@ -2,11 +2,16 @@ import React from 'react'
 import ChildrenComponent from './Children'
 import Title from './Title'
 class Parent extends React.Component {
+  constructor(props) {
+    super(props)
+  }
   state = {
     a: 1,
   }
 
   render() {
+    console.log('this', this)
+    console.log('props', this.props)
     const cc = (
       <div key={'z'} style={{ border: '1px solid red' }}>
         ChildRen

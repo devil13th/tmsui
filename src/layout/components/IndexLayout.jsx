@@ -5,6 +5,7 @@ import { Lifecycle } from 'react-router'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import TestA from '@/components/test/ComponentA'
 import Edu from '@/components/edu/basic/Edu'
+import RouterEdu from '@/components/edu/router/RouterEdu'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -60,17 +61,10 @@ class IndexLayout extends React.Component {
             }}
           >
             <Switch>
-              <Route path="/testA">
-                <TestA a="xxx"></TestA>
-              </Route>
-
-              <Route path="/CgTest/CgTestList">
-                <CgTestList />
-              </Route>
-
-              <Route path="/edu/basic">
-                <Edu></Edu>
-              </Route>
+              <Route path="/testA" component={TestA}></Route>
+              <Route path="/CgTest/CgTestList" component={CgTestList}></Route>
+              <Route path="/edu/basic" component={Edu}></Route>
+              <Route path="/edu/router" component={RouterEdu}></Route>
             </Switch>
           </Content>
         </Layout>

@@ -146,3 +146,10 @@ code {
   padding-top:8px;
   flex-grow: 1; 
 }
+
+
+
+
+.router_nav{background:#eee;}
+.router_nav a{font-size:14px;}
+.router_nav a.navLk{font-size:16px !important;font-weight:bold !important;color:red !important;}
