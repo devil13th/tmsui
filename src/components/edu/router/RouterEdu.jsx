@@ -6,6 +6,7 @@ import style from './css.module.css'
 import About from './about/About'
 import Home from './home/Home'
 import User from './user/User'
+import SendParams from './params/SendParams'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -46,12 +47,17 @@ class RouterEdu extends React.Component {
           <NavLink activeClassName="navLk" to="/edu/router/user">
             User
           </NavLink>
+          <Divider type={'vertical'}></Divider>
+          <NavLink activeClassName="navLk" to="/edu/router/params">
+            传参方式
+          </NavLink>
         </div>
         <Divider></Divider>
         <Switch>
           <Route path="/edu/router/home" component={Home}></Route>
           <Route path="/edu/router/about" component={About}></Route>
           <Route path="/edu/router/user" component={User}></Route>
+          <Route path="/edu/router/params" component={SendParams}></Route>
         </Switch>
       </div>
     )
