@@ -65,6 +65,9 @@ class IndexMenu extends React.Component {
             <Menu.Item key="1b" icon={<PieChartOutlined />}>
               <Link to="/edu/router">Router Edu</Link>
             </Menu.Item>
+            <Menu.Item key="1c" icon={<PieChartOutlined />}>
+              <Link to="/edu/hoc">Hoc 高阶组件</Link>
+            </Menu.Item>
           </SubMenu>
           <Menu.Item key="2" icon={<DesktopOutlined />}>
             Option 2

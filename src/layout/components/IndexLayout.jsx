@@ -6,6 +6,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import TestA from '@/components/test/ComponentA'
 import Edu from '@/components/edu/basic/Edu'
 import RouterEdu from '@/components/edu/router/RouterEdu'
+import Hoc from '@/components/edu/hoc/Hoc'
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -65,6 +66,7 @@ class IndexLayout extends React.Component {
               <Route path="/CgTest/CgTestList" component={CgTestList}></Route>
               <Route path="/edu/basic" component={Edu}></Route>
               <Route path="/edu/router" component={RouterEdu}></Route>
+              <Route path="/edu/hoc" component={Hoc}></Route>
             </Switch>
           </Content>
         </Layout>
