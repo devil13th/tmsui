@@ -6,6 +6,7 @@ import ChildComponent from '@/components/edu/basic/ChildComponent/Parent'
 import InvokeChild from '@/components/edu/basic/InvokeChild/Parent'
 import Hook from '@/components/edu/basic/hook/Hook'
 import Context from '@/components/edu/basic/context/Context'
+import PubSub from '@/components/edu/basic/pubsub/PubSub'
 import style from './css.module.css'
 import {
   MenuUnfoldOutlined,
@@ -43,6 +44,8 @@ class Edu extends React.Component {
         <Link to="/edu/basic/hook">Hook</Link>
         <Divider type={'vertical'}></Divider>
         <Link to="/edu/basic/context">Context</Link>
+        <Divider type={'vertical'}></Divider>
+        <Link to="/edu/basic/pubsub">Pub-Sub</Link>
         <Divider></Divider>
         <Switch>
           <Route
@@ -52,6 +55,7 @@ class Edu extends React.Component {
           <Route path="/edu/basic/InvokeChild" component={InvokeChild}></Route>
           <Route path="/edu/basic/hook" component={Hook}></Route>
           <Route path="/edu/basic/context" component={Context}></Route>
+          <Route path="/edu/basic/PubSub" component={PubSub}></Route>
         </Switch>
       </div>
     )
