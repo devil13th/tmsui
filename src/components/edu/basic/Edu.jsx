@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import ChildComponent from '@/components/edu/basic/ChildComponent/Parent'
 import InvokeChild from '@/components/edu/basic/InvokeChild/Parent'
 import Hook from '@/components/edu/basic/hook/Hook'
+import Context from '@/components/edu/basic/context/Context'
 import style from './css.module.css'
 import {
   MenuUnfoldOutlined,
@@ -40,7 +41,8 @@ class Edu extends React.Component {
         <Link to="/edu/basic/InvokeChild">调用子组件方法</Link>
         <Divider type={'vertical'}></Divider>
         <Link to="/edu/basic/hook">Hook</Link>
-
+        <Divider type={'vertical'}></Divider>
+        <Link to="/edu/basic/context">Context</Link>
         <Divider></Divider>
         <Switch>
           <Route
@@ -49,6 +51,7 @@ class Edu extends React.Component {
           ></Route>
           <Route path="/edu/basic/InvokeChild" component={InvokeChild}></Route>
           <Route path="/edu/basic/hook" component={Hook}></Route>
+          <Route path="/edu/basic/context" component={Context}></Route>
         </Switch>
       </div>
     )

@@ -1,16 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-class Children extends React.Component{
-    state = {
-        a:1
-    }
+class Children extends React.Component {
+  state = {
+    a: 1,
+  }
 
-    render(){
-        console.log(this.props)
-        return (
-            <div>{[...this.props.children]}</div> 
-        )
-    }
+  render() {
+    console.log(this.props)
+    return <div>{this.props.children}</div>
+  }
 }
 
-export default Children;
+export default Children
