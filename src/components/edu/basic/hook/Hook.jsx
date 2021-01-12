@@ -5,13 +5,14 @@ export default function HookExample() {
 
   useEffect(() => {
     // Update the document title using the browser API
-    console.log('useEffect')
+    const m = Math.random()
+    console.log('useEffect create ', m)
     document.title = `[${count}] You clicked times`
 
     return () => {
-      console.log('unload useEffect')
+      console.log(`unload useEffect ${m}`)
     }
-  })
+  }, [count])
 
   console.log(useState(0))
   return (
