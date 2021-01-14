@@ -5,12 +5,18 @@ import {
   NotificationOutlined,
   PlusOutlined,
   BellOutlined,
+  SearchOutlined,
   BookOutlined,
+  AudioOutlined,
+  SettingOutlined,
 } from '@ant-design/icons'
-import { Button, Dropdown, Menu, Spin, Table, Divider } from 'antd'
+import {Input, Button, Dropdown, Menu, Spin, Table, Divider ,Drawer , Tabs} from 'antd'
+const { Search } = Input;
+const { TabPane } = Tabs;
 class Backlog extends React.Component {
   state = {
     loading: true,
+    visible:false,
     columns: [
       { title: 'Name', dataIndex: 'name', key: 'name' },
       { title: 'Age', dataIndex: 'age', key: 'age' },
@@ -61,6 +67,12 @@ class Backlog extends React.Component {
     this.setState({ loading: false })
   }
 
+  showSearch=()=>{
+    this.setState({visible:true})
+  }
+  onClose  = () => {
+    this.setState({visible:false})
+  }
   render() {
     const menuList = (
       <Menu>
@@ -78,6 +90,23 @@ class Backlog extends React.Component {
       </Menu>
     )
 
+    const suffix = (
+      <AudioOutlined
+        style={{
+          fontSize: 16,
+          color: '#1890ff',
+        }}
+      />
+    );
+
+    function expandRender(record){
+      return (
+        <div style={{border:'1px solid red',padding:'8px'}}>
+          {record.description}
+        </div>
+      )
+    }
+
     return (
       <div>
         <Spin spinning={this.state.loading} tip="Loading...">
@@ -86,7 +115,7 @@ class Backlog extends React.Component {
               <ArrowRightOutlined
                 style={{
                   flex: '0 0 32px',
-                  lineHeight: '32px',
+                  lineHeight: '34px',
                   color: '#008dff',
                 }}
               />
@@ -101,11 +130,14 @@ class Backlog extends React.Component {
               </h1>
               <div
                 style={{
-                  flex: '0 0 32px',
+                  flex: '0 0 400px',
                   lineHeight: '32px',
+                  textAlign:'right'
                 }}
               >
-                <Dropdown overlay={menuList} placement="bottomLeft">
+                <Search placeholder="input search text" style={{ width: 200,marginRight:'4px' }} />
+                <Button type="link" onClick={this.showSearch}>Advance</Button>
+                <Dropdown overlay={menuList} placement="bottomLeft" >
                   <Button type="primary" icon={<PlusOutlined />} />
                 </Dropdown>
               </div>
@@ -116,13 +148,52 @@ class Backlog extends React.Component {
             size="small"
             columns={this.state.columns}
             expandable={{
-              expandedRowRender: (record) => (
-                <p style={{ margin: 0 }}>{record.description}</p>
-              ),
+              expandedRowRender: expandRender,
               rowExpandable: (record) => record.name !== 'Not Expandable',
             }}
             dataSource={this.state.data}
           />
+
+
+
+
+
+        <Drawer
+         
+          placement="right"
+          closable={true}
+          onClose={this.onClose}
+          visible={this.state.visible}
+          placement="left"
+          width={500}
+        >
+         <Tabs defaultActiveKey="1">
+          <TabPane tab={
+            <span>
+              <SearchOutlined />
+              Search Condition
+            </span>
+            }  key="1">
+            Content of Tab Pane 1
+          </TabPane>
+          
+          <TabPane tab="Tab 2" key="2">
+            Content of Tab Pane 2
+          </TabPane>
+          <TabPane tab={
+            <span>
+              <SettingOutlined />
+              Setting
+            </span>
+            } 
+            key="3"
+          >
+            Content of Tab Pane 3
+          </TabPane>
+        </Tabs>
+        </Drawer>
+
+
         </Spin>
       </div>
     )
