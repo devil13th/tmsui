@@ -69,9 +69,11 @@ class IndexMenu extends React.Component {
               <Link to="/edu/hoc">Hoc 高阶组件</Link>
             </Menu.Item>
           </SubMenu>
-          <Menu.Item key="2" icon={<DesktopOutlined />}>
-            Option 2
-          </Menu.Item>
+          <SubMenu key="Function" icon={<DesktopOutlined />} title="Function">
+            <Menu.Item key="Backlog" icon={<UserOutlined />}>
+              <Link to="/Backlog">Backlog</Link>
+            </Menu.Item>
+          </SubMenu>
           <SubMenu key="sub1" icon={<ControlOutlined />} title="System Manager">
             <Menu.Item key="3" icon={<UserOutlined />}>
               <Link to="/about">用户管理</Link>

@@ -7,6 +7,7 @@ import InvokeChild from '@/components/edu/basic/InvokeChild/Parent'
 import Hook from '@/components/edu/basic/hook/Hook'
 import Context from '@/components/edu/basic/context/Context'
 import PubSub from '@/components/edu/basic/pubsub/PubSub'
+import StandardCode from '@/components/edu/basic/StandardCode/StandardCode'
 import style from './css.module.css'
 import {
   MenuUnfoldOutlined,
@@ -36,7 +37,8 @@ class Edu extends React.Component {
           </div>
         </div>
         <Divider></Divider>
-
+        <Link to="/edu/basic/StandardCode">标准代码</Link>
+        <Divider type={'vertical'}></Divider>
         <Link to="/edu/basic/ChildComponent">嵌套子组件</Link>
         <Divider type={'vertical'}></Divider>
         <Link to="/edu/basic/InvokeChild">调用子组件方法</Link>
@@ -56,6 +58,10 @@ class Edu extends React.Component {
           <Route path="/edu/basic/hook" component={Hook}></Route>
           <Route path="/edu/basic/context" component={Context}></Route>
           <Route path="/edu/basic/PubSub" component={PubSub}></Route>
+          <Route
+            path="/edu/basic/StandardCode"
+            component={StandardCode}
+          ></Route>
         </Switch>
       </div>
     )

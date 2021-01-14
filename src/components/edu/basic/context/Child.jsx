@@ -1,12 +1,13 @@
 import React from 'react'
-import UserContext from './userContext'
+import { User, Theme } from './userContext'
 class Child extends React.Component {
   state = {}
-
+  static contextType = Theme
   render() {
+    console.log('context', this.context)
     return (
       <div>
-        <UserContext.Consumer>
+        <User.Consumer>
           {(value) => {
             return (
               <button
@@ -21,7 +22,7 @@ class Child extends React.Component {
               </button>
             )
           }}
-        </UserContext.Consumer>
+        </User.Consumer>
       </div>
     )
   }

@@ -1,8 +1,8 @@
 import React from 'react'
 import Child from './Child'
-import UserContext from './userContext'
+import { User, Theme } from './userContext'
 class Context extends React.Component {
-  state = { person: { name: 'zhangsan', age: 5 } }
+  state = { person: { name: 'zhangsan', age: 5 }, theme: 'blue' }
 
   changeName = (name, age) => {
     console.log(name, age)
@@ -28,12 +28,16 @@ class Context extends React.Component {
         <br />
         <br />
         Child Component: <br />
-        <UserContext.Provider value={v}>
-          <Child></Child>
-        </UserContext.Provider>
-        <UserContext.Provider value={v}>
-          <Child></Child>
-        </UserContext.Provider>
+        <User.Provider value={v}>
+          <Theme.Provider value={this.state.theme}>
+            <Child></Child>
+          </Theme.Provider>
+        </User.Provider>
+        <User.Provider value={v}>
+          <Theme.Provider value={this.state.theme}>
+            <Child></Child>
+          </Theme.Provider>
+        </User.Provider>
       </div>
     )
   }

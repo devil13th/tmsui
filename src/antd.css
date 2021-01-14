@@ -27399,7 +27399,7 @@ textarea.ant-mentions {
   border-radius: 0;
 }
 .ant-table-tbody > tr.ant-table-row:hover > td {
-  background: #fafafa;
+  background: #e6f7ff;
 }
 .ant-table-tbody > tr.ant-table-row-selected > td {
   background: #e6f7ff;
